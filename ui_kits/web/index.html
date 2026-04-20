@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<style>
+@font-face { font-family: 'Poppins'; src: url('../../fonts/Poppins-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../../fonts/Poppins-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../../fonts/Poppins-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../../fonts/Poppins-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BuyMaterials — Web UI Kit</title>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body { font-family: 'Poppins', sans-serif; background: #F6F6F6; }
+::-webkit-scrollbar { width: 6px; } ::-webkit-scrollbar-track { background: #f1f1f1; } ::-webkit-scrollbar-thumb { background: #CACBCA; border-radius: 3px; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const { useState, useEffect } = React;
+
+// ── Design tokens ────────────────────────────────────────────────
+const C = {
+  mint: '#56D2BA', mintDark: '#3D9584', mintLight: '#EEFBF8', mintBg: '#CBF1EA',
+  navy: '#00001E', dark: '#212623', grey6: '#666', grey4: '#999B9A',
+  grey3: '#CACBCA', grey2: '#E4E5E5', grey1: '#F7F7F7', white: '#FFFFFF',
+  danger: '#D64949', dangerBg: '#FBEDED', warning: '#EB9A4C', warningBg: '#FDF5ED',
+  success: '#3CC752', successBg: '#ECF9EE', info: '#47B0D2', infoBg: '#EDF7FB',
+  pageBg: '#F6F6F6',
+};
+
+// ── Reusable atoms ───────────────────────────────────────────────
+const Btn = ({ variant='primary', size='m', children, onClick, style={} }) => {
+  const h = size === 's' ? 32 : size === 'l' ? 48 : 40;
+  const px = size === 's' ? 12 : size === 'l' ? 20 : 16;
+  const fs = size === 's' ? 12 : size === 'l' ? 16 : 14;
+  const base = { display:'inline-flex', alignItems:'center', gap:6, height:h, padding:`0 ${px}px`, fontFamily:'Poppins', fontWeight:600, fontSize:fs, borderRadius:8, border:'none', cursor:'pointer', transition:'all .15s', ...style };
+  const styles = {
+    primary:     { ...base, background:C.mint, color:'#fff' },
+    secondary:   { ...base, background:'transparent', color:C.mint, border:`1.5px solid ${C.mint}` },
+    tertiary:    { ...base, background:'transparent', color:C.mint },
+    destructive: { ...base, background:C.danger, color:'#fff' },
+    ghost:       { ...base, background:C.grey1, color:C.dark },
+  };
+  return <button style={styles[variant] || styles.primary} onClick={onClick}>{children}</button>;
+};
+
+const Badge = ({ status='neutral', children }) => {
+  const map = {
+    success: { bg: C.successBg, color: '#216D2D', dot: C.success },
+    danger:  { bg: C.dangerBg,  color: '#762828', dot: C.danger  },
+    warning: { bg: C.warningBg, color: '#81552A', dot: C.warning },
+    info:    { bg: C.infoBg,    color: '#276174', dot: C.info    },
+    neutral: { bg: C.grey1,     color: C.grey6,   dot: C.grey4  },
+    brand:   { bg: C.mint,      color: '#fff',    dot: null      },
+    dark:    { bg: C.dark,      color: '#fff',    dot: null      },
+  };
+  const t = map[status] || map.neutral;
+  return (
+    <span style={{ display:'inline-flex', alignItems:'center', gap:4, background:t.bg, color:t.color, fontFamily:'Poppins', fontSize:11, fontWeight:600, borderRadius:4, padding:'3px 8px' }}>
+      {t.dot && <span style={{ width:6, height:6, borderRadius:'50%', background:t.dot, flexShrink:0 }} />}
+      {children}
+    </span>
+  );
+};
+
+const ImgPlaceholder = ({ w=200, h=200, label='', style={} }) => (
+  <div style={{ width:w, height:h, background:'#F0F0F0', borderRadius:8, display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', color:C.grey4, fontSize:11, gap:6, ...style }}>
+    <svg width="28" height="28" fill="none" stroke={C.grey3} strokeWidth="1.5" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+    {label && <span style={{color:C.grey3}}>{label}</span>}
+  </div>
+);
+
+// ── Icons (inline SVG helpers) ───────────────────────────────────
+const Icon = ({ name, size=16, color='currentColor', strokeWidth=2 }) => {
+  const paths = {
+    search: <><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></>,
+    cart: <><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></>,
+    grid: <><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></>,
+    orders: <><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></>,
+    building: <><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></>,
+    users: <><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></>,
+    chevronDown: <polyline points="6 9 12 15 18 9"/>,
+    chevronRight: <polyline points="9 18 15 12 9 6"/>,
+    bell: <><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></>,
+    plus: <><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></>,
+    check: <polyline points="20 6 9 17 4 12"/>,
+    settings: <><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></>,
+    trending: <><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></>,
+    package: <><line x1="16.5" y1="9.4" x2="7.5" y2="4.21"/><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></>,
+  };
+  return (
+    <svg width={size} height={size} fill="none" stroke={color} strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+      {paths[name]}
+    </svg>
+  );
+};
+
+// ── Logo mark ────────────────────────────────────────────────────
+const LogoMark = ({ size=28 }) => (
+  <div style={{ width:size, height:size, background:C.mint, borderRadius:Math.round(size*0.2), display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+    <svg width={size*0.6} height={size*0.6} viewBox="0 0 16 16" fill="white">
+      <path d="M9 2L3 9h5l-1 5 7-7H9l1-5z"/>
+    </svg>
+  </div>
+);
+
+// ── SCREEN: Marketplace (Buyer) ──────────────────────────────────
+const CATEGORIES = ['All','Cement & Concrete','Steel & Iron','Timber & Wood','Insulation','Roofing','Plumbing','Electrical','Finishings'];
+const PRODUCTS = [
+  { id:1, name:'Portland Cement 42.5R', brand:'LafargeHolcim', price:'€24.50', unit:'per bag', moq:'50 bags', badge:'success', badgeLabel:'In Stock', category:'Cement & Concrete', sku:'CEM-425R-50' },
+  { id:2, name:'Steel Rebar Ø12mm × 12m', brand:'ArcelorMittal', price:'€18.90', unit:'per rod', moq:'100 rods', badge:'success', badgeLabel:'In Stock', category:'Steel & Iron', sku:'STL-RBR-12' },
+  { id:3, name:'Mineral Wool Insulation 100mm', brand:'Rockwool', price:'€42.00', unit:'per m²', moq:'20 m²', badge:'warning', badgeLabel:'Low Stock', category:'Insulation', sku:'INS-MW-100' },
+  { id:4, name:'CLS Timber 47×100mm × 4.8m', brand:'Nordic Timber', price:'€8.40', unit:'per length', moq:'200 pcs', badge:'success', badgeLabel:'In Stock', category:'Timber & Wood', sku:'TIM-CLS-47' },
+  { id:5, name:'HDPE Water Pipe Ø50mm', brand:'Wavin', price:'€3.20', unit:'per metre', moq:'500 m', badge:'info', badgeLabel:'To Order', category:'Plumbing', sku:'PLM-HDPE-50' },
+  { id:6, name:'Flat Roof Membrane 1.5mm', brand:'Sika', price:'€12.80', unit:'per m²', moq:'100 m²', badge:'success', badgeLabel:'In Stock', category:'Roofing', sku:'ROF-FRM-15' },
+  { id:7, name:'AAC Block 200×600×250mm', brand:'H+H', price:'€1.85', unit:'per block', moq:'500 pcs', badge:'success', badgeLabel:'In Stock', category:'Cement & Concrete', sku:'BLK-AAC-200' },
+  { id:8, name:'Gypsum Board 12.5mm × 1.2m', brand:'Knauf', price:'€7.60', unit:'per sheet', moq:'50 sheets', badge:'warning', badgeLabel:'Low Stock', category:'Finishings', sku:'GYP-STD-125' },
+];
+
+const ProductCard = ({ product, onClick }) => {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      onClick={() => onClick(product)}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{ background:C.white, borderRadius:12, overflow:'hidden', cursor:'pointer', boxShadow: hovered ? '0 8px 24px rgba(0,0,0,0.12)' : '0 4px 4px -2px rgba(0,0,0,0.10)', transition:'box-shadow .2s, transform .2s', transform: hovered ? 'translateY(-2px)' : 'none' }}>
+      <ImgPlaceholder w="100%" h={160} label={product.category} style={{ borderRadius:0, width:'100%' }} />
+      <div style={{ padding:'12px 14px 14px' }}>
+        <div style={{ fontSize:10, color:C.grey4, marginBottom:4, fontFamily:'Inter' }}>{product.brand} · {product.sku}</div>
+        <div style={{ fontSize:13, fontWeight:600, color:C.navy, lineHeight:1.4, marginBottom:8 }}>{product.name}</div>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-end' }}>
+          <div>
+            <div style={{ fontSize:16, fontWeight:700, color:C.navy }}>{product.price}</div>
+            <div style={{ fontSize:10, color:C.grey4 }}>{product.unit} · MOQ: {product.moq}</div>
+          </div>
+          <Badge status={product.badge}>{product.badgeLabel}</Badge>
+        </div>
+        <div style={{ display:'flex', gap:8, marginTop:12 }}>
+          <Btn variant="secondary" size="s" style={{ flex:1, justifyContent:'center' }}>Quote</Btn>
+          <Btn variant="primary" size="s" style={{ flex:1, justifyContent:'center' }}>
+            <Icon name="cart" size={12} color="white"/> Add
+          </Btn>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const MarketplaceScreen = ({ onProductClick, onDashboardClick }) => {
+  const [search, setSearch] = useState('');
+  const [activeCategory, setActiveCategory] = useState('All');
+  const [cartCount, setCartCount] = useState(2);
+
+  const filtered = PRODUCTS.filter(p =>
+    (activeCategory === 'All' || p.category === activeCategory) &&
+    (search === '' || p.name.toLowerCase().includes(search.toLowerCase()))
+  );
+
+  return (
+    <div style={{ minHeight:'100vh', background:C.pageBg }}>
+      {/* Top Nav */}
+      <div style={{ background:C.dark, position:'sticky', top:0, zIndex:100 }}>
+        <div style={{ maxWidth:1280, margin:'0 auto', padding:'0 24px', height:64, display:'flex', alignItems:'center', gap:24 }}>
+          <div style={{ display:'flex', alignItems:'center', gap:10, flexShrink:0 }}>
+            <LogoMark size={32} />
+            <span style={{ color:'#fff', fontWeight:700, fontSize:15 }}>buymaterials</span>
+          </div>
+          {/* Search */}
+          <div style={{ flex:1, maxWidth:520, position:'relative' }}>
+            <div style={{ position:'absolute', left:12, top:'50%', transform:'translateY(-50%)' }}>
+              <Icon name="search" size={15} color={C.grey4} />
+            </div>
+            <input
+              value={search}
+              onChange={e => setSearch(e.target.value)}
+              placeholder="Search products, brands, categories..."
+              style={{ width:'100%', height:40, background:'rgba(255,255,255,0.1)', border:'1.5px solid rgba(255,255,255,0.15)', borderRadius:8, paddingLeft:38, paddingRight:12, color:'#fff', fontFamily:'Poppins', fontSize:13, outline:'none' }}
+            />
+          </div>
+          <div style={{ marginLeft:'auto', display:'flex', alignItems:'center', gap:16 }}>
+            <button style={{ background:'none', border:'none', cursor:'pointer', color:C.grey3, position:'relative' }}>
+              <Icon name="bell" size={20} color={C.grey3} />
+              <span style={{ position:'absolute', top:-4, right:-4, background:C.danger, color:'#fff', fontSize:9, fontWeight:700, borderRadius:99, padding:'1px 4px' }}>3</span>
+            </button>
+            <div style={{ display:'flex', alignItems:'center', gap:8, cursor:'pointer', position:'relative' }}
+              onClick={() => {}}>
+              <Icon name="cart" size={20} color={C.grey3} />
+              {cartCount > 0 && <span style={{ position:'absolute', top:-6, right:-6, background:C.mint, color:'#fff', fontSize:9, fontWeight:700, borderRadius:99, padding:'1px 5px' }}>{cartCount}</span>}
+            </div>
+            <Btn variant="primary" size="s" onClick={onDashboardClick}>Merchant Portal</Btn>
+            <div style={{ width:32, height:32, borderRadius:'50%', background:C.mint, display:'flex', alignItems:'center', justifyContent:'center', cursor:'pointer' }}>
+              <span style={{ color:'#fff', fontWeight:700, fontSize:13 }}>JD</span>
+            </div>
+          </div>
+        </div>
+        {/* Category nav */}
+        <div style={{ borderTop:'1px solid rgba(255,255,255,0.08)' }}>
+          <div style={{ maxWidth:1280, margin:'0 auto', padding:'0 24px', display:'flex', gap:0, overflowX:'auto' }}>
+            {CATEGORIES.map(cat => (
+              <button key={cat} onClick={() => setActiveCategory(cat)}
+                style={{ background:'none', border:'none', cursor:'pointer', padding:'10px 16px', fontFamily:'Poppins', fontSize:12, fontWeight: activeCategory===cat ? 600 : 400, color: activeCategory===cat ? C.mint : C.grey3, borderBottom: activeCategory===cat ? `2px solid ${C.mint}` : '2px solid transparent', whiteSpace:'nowrap', transition:'color .15s' }}>
+                {cat}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Content */}
+      <div style={{ maxWidth:1280, margin:'0 auto', padding:'28px 24px' }}>
+        <div style={{ display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:20 }}>
+          <div>
+            <h1 style={{ fontSize:20, fontWeight:700, color:C.navy }}>{activeCategory === 'All' ? 'All Products' : activeCategory}</h1>
+            <div style={{ fontSize:12, color:C.grey4, marginTop:2 }}>{filtered.length} products available</div>
+          </div>
+          <div style={{ display:'flex', gap:10, alignItems:'center' }}>
+            <select style={{ fontFamily:'Poppins', fontSize:12, border:`1.5px solid ${C.grey2}`, borderRadius:8, padding:'7px 28px 7px 12px', background:`#fff url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999B9A' stroke-width='1.5'/%3E%3C/svg%3E") right 10px center no-repeat`, appearance:'none', outline:'none' }}>
+              <option>Sort: Relevance</option>
+              <option>Price: Low to High</option>
+              <option>Price: High to Low</option>
+              <option>In Stock First</option>
+            </select>
+          </div>
+        </div>
+        {filtered.length === 0 ? (
+          <div style={{ textAlign:'center', padding:'60px 0', color:C.grey4 }}>
+            <Icon name="package" size={40} color={C.grey2} />
+            <div style={{ marginTop:12, fontSize:14 }}>No products found for "{search}"</div>
+          </div>
+        ) : (
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill, minmax(220px, 1fr))', gap:16 }}>
+            {filtered.map(p => <ProductCard key={p.id} product={p} onClick={onProductClick} />)}
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+// ── SCREEN: Product Detail ────────────────────────────────────────
+const ProductDetailScreen = ({ product, onBack }) => {
+  const [qty, setQty] = useState(product?.moq?.split(' ')[0] || '50');
+  const [tab, setTab] = useState('specs');
+
+  if (!product) return null;
+
+  return (
+    <div style={{ minHeight:'100vh', background:C.pageBg }}>
+      {/* Nav (simplified) */}
+      <div style={{ background:C.dark, height:64, display:'flex', alignItems:'center', padding:'0 32px', gap:16 }}>
+        <div style={{ display:'flex', alignItems:'center', gap:10 }}>
+          <LogoMark size={32} />
+          <span style={{ color:'#fff', fontWeight:700, fontSize:15 }}>buymaterials</span>
+        </div>
+        <div style={{ marginLeft:'auto' }}>
+          <Btn variant="ghost" size="s" onClick={onBack}>← Back to listings</Btn>
+        </div>
+      </div>
+      {/* Breadcrumb */}
+      <div style={{ maxWidth:1200, margin:'0 auto', padding:'16px 24px 0' }}>
+        <div style={{ display:'flex', gap:6, alignItems:'center', fontSize:12, color:C.grey4 }}>
+          <span style={{ cursor:'pointer', color:C.mintDark }} onClick={onBack}>Marketplace</span>
+          <Icon name="chevronRight" size={12} color={C.grey3} />
+          <span style={{ cursor:'pointer', color:C.mintDark }}>{product.category}</span>
+          <Icon name="chevronRight" size={12} color={C.grey3} />
+          <span style={{ color:C.grey6 }}>{product.name}</span>
+        </div>
+      </div>
+      {/* Main content */}
+      <div style={{ maxWidth:1200, margin:'16px auto', padding:'0 24px', display:'grid', gridTemplateColumns:'1fr 380px', gap:24, alignItems:'start' }}>
+        {/* Left: images + details */}
+        <div>
+          <div style={{ background:C.white, borderRadius:16, padding:28, boxShadow:'0 4px 4px -2px rgba(0,0,0,0.10)' }}>
+            <div style={{ display:'grid', gridTemplateColumns:'80px 1fr', gap:12 }}>
+              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                {[0,1,2].map(i => (
+                  <ImgPlaceholder key={i} w={72} h={72} style={{ borderRadius:6, border:`1.5px solid ${i===0?C.mint:C.grey2}` }} />
+                ))}
+              </div>
+              <ImgPlaceholder w="100%" h={320} label="Product image" style={{ borderRadius:10 }} />
+            </div>
+
+            {/* Tabs */}
+            <div style={{ display:'flex', gap:0, borderBottom:`1.5px solid ${C.grey2}`, marginTop:28, marginBottom:20 }}>
+              {['specs','delivery','docs'].map(t => (
+                <button key={t} onClick={() => setTab(t)} style={{ background:'none', border:'none', cursor:'pointer', padding:'8px 18px', fontFamily:'Poppins', fontSize:13, fontWeight: tab===t ? 600 : 400, color: tab===t ? C.navy : C.grey6, borderBottom: tab===t ? `2px solid ${C.mint}` : '2px solid transparent', marginBottom:-1.5, textTransform:'capitalize' }}>{t}</button>
+              ))}
+            </div>
+
+            {tab === 'specs' && (
+              <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'8px 32px' }}>
+                {[['SKU', product.sku],['Brand', product.brand],['Category', product.category],['Unit', product.unit],['MOQ', product.moq],['Lead time','2–5 working days'],['Standard','EN 197-1'],['Origin','Germany']].map(([k,v]) => (
+                  <div key={k} style={{ display:'flex', justifyContent:'space-between', padding:'8px 0', borderBottom:`1px solid ${C.grey1}`, fontSize:13 }}>
+                    <span style={{ color:C.grey6 }}>{k}</span>
+                    <span style={{ color:C.navy, fontWeight:500 }}>{v}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+            {tab === 'delivery' && (
+              <div style={{ fontSize:13, color:C.grey6, lineHeight:1.7 }}>
+                <p>Standard delivery 2–5 working days for stock items. Large volume orders may require additional lead time.</p>
+                <p style={{ marginTop:12 }}>Delivery is arranged upon purchase order confirmation. Logistics tracked via portal.</p>
+              </div>
+            )}
+            {tab === 'docs' && (
+              <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
+                {['Safety Data Sheet (SDS)','Technical Data Sheet (TDS)','CE Certificate','Test Report'].map(doc => (
+                  <div key={doc} style={{ display:'flex', alignItems:'center', gap:10, padding:'10px 12px', background:C.grey1, borderRadius:8, cursor:'pointer' }}>
+                    <Icon name="orders" size={14} color={C.grey4} />
+                    <span style={{ fontSize:13, color:C.navy }}>{doc}</span>
+                    <span style={{ marginLeft:'auto', fontSize:11, color:C.mint, fontWeight:600 }}>PDF</span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Right: order panel */}
+        <div style={{ position:'sticky', top:80 }}>
+          <div style={{ background:C.white, borderRadius:16, padding:24, boxShadow:'0 4px 4px -2px rgba(0,0,0,0.10)' }}>
+            <div style={{ fontSize:11, color:C.grey4, marginBottom:4, fontFamily:'Inter' }}>{product.brand} · {product.sku}</div>
+            <h1 style={{ fontSize:18, fontWeight:700, color:C.navy, lineHeight:1.4, marginBottom:10 }}>{product.name}</h1>
+            <Badge status={product.badge}>{product.badgeLabel}</Badge>
+
+            <div style={{ margin:'16px 0', padding:'14px 0', borderTop:`1px solid ${C.grey1}`, borderBottom:`1px solid ${C.grey1}` }}>
+              <div style={{ fontSize:24, fontWeight:700, color:C.navy }}>{product.price}</div>
+              <div style={{ fontSize:11, color:C.grey4, marginTop:2 }}>{product.unit} · excl. VAT</div>
+            </div>
+
+            <div style={{ marginBottom:16 }}>
+              <label style={{ fontSize:12, fontWeight:600, color:C.navy, display:'block', marginBottom:6 }}>Quantity ({product.unit})</label>
+              <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+                <button onClick={() => setQty(q => String(Math.max(1, Number(q)-10)))} style={{ width:36, height:36, borderRadius:8, border:`1.5px solid ${C.grey2}`, background:C.white, cursor:'pointer', fontFamily:'Poppins', fontSize:18, color:C.navy, display:'flex', alignItems:'center', justifyContent:'center' }}>−</button>
+                <input value={qty} onChange={e => setQty(e.target.value)} style={{ flex:1, height:36, borderRadius:8, border:`1.5px solid ${C.grey2}`, textAlign:'center', fontFamily:'Poppins', fontSize:14, fontWeight:600, color:C.navy, outline:'none' }} />
+                <button onClick={() => setQty(q => String(Number(q)+10))} style={{ width:36, height:36, borderRadius:8, border:`1.5px solid ${C.grey2}`, background:C.white, cursor:'pointer', fontFamily:'Poppins', fontSize:18, color:C.navy, display:'flex', alignItems:'center', justifyContent:'center' }}>+</button>
+              </div>
+              <div style={{ fontSize:11, color:C.grey4, marginTop:4 }}>Min. order: {product.moq}</div>
+            </div>
+
+            <div style={{ background:C.mintLight, borderRadius:8, padding:'10px 12px', marginBottom:16, fontSize:12, color:C.mintDark }}>
+              <strong>Total estimate:</strong> {Number(product.price.replace(/[€,]/g,'')) > 0 ? `€${(parseFloat(product.price.replace('€','')) * Number(qty)).toFixed(2)}` : '—'} excl. VAT
+            </div>
+
+            <Btn variant="primary" size="l" style={{ width:'100%', justifyContent:'center', marginBottom:10 }}>
+              <Icon name="cart" size={16} color="white"/>
+              Add to cart
+            </Btn>
+            <Btn variant="secondary" size="l" style={{ width:'100%', justifyContent:'center' }}>
+              Request quote
+            </Btn>
+
+            <div style={{ marginTop:16, paddingTop:16, borderTop:`1px solid ${C.grey1}`, display:'flex', flexDirection:'column', gap:8 }}>
+              {[['Delivery', '2–5 working days'], ['Payment', 'Net 30 / Credit card'], ['Returns', '30-day return policy']].map(([k,v]) => (
+                <div key={k} style={{ display:'flex', alignItems:'center', gap:8, fontSize:12 }}>
+                  <Icon name="check" size={12} color={C.mint} />
+                  <span style={{ color:C.grey6 }}>{k}:</span>
+                  <span style={{ color:C.navy, fontWeight:500 }}>{v}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── SCREEN: Merchant Dashboard ────────────────────────────────────
+const ORDERS = [
+  { id:'BM-10482', buyer:'Costain Group', items:3, value:'€4,280', status:'processing', date:'Today, 09:14' },
+  { id:'BM-10481', buyer:'Multiplex Construction', items:7, value:'€12,050', status:'success', date:'Today, 07:32' },
+  { id:'BM-10480', buyer:'Skanska UK Ltd', items:2, value:'€890', status:'warning', date:'Yesterday' },
+  { id:'BM-10479', buyer:'Kier Group', items:5, value:'€6,340', status:'success', date:'Yesterday' },
+  { id:'BM-10478', buyer:'Morgan Sindall', items:1, value:'€240', status:'danger', date:'Mon 14 Apr' },
+];
+
+const STAT_STATUS_MAP = { processing:'info', success:'success', warning:'warning', danger:'danger' };
+const ORDER_STATUS_LABEL = { processing:'Processing', success:'Delivered', warning:'Pending', danger:'Cancelled' };
+
+const MerchantDashboard = ({ onMarketplaceClick }) => {
+  const [activeNav, setActiveNav] = useState('Dashboard');
+  const navItems = [
+    { id:'Dashboard', icon:'grid' },
+    { id:'Marketplace', icon:'cart' },
+    { id:'Orders', icon:'orders', badge:5 },
+    { id:'Branches', icon:'building' },
+    { id:'Buyers', icon:'users' },
+    { id:'Settings', icon:'settings' },
+  ];
+
+  return (
+    <div style={{ display:'flex', height:'100vh', overflow:'hidden', background:C.pageBg }}>
+      {/* Sidebar */}
+      <div style={{ width:220, background:C.dark, borderRadius:'0 12px 12px 0', display:'flex', flexDirection:'column', padding:'16px 12px', flexShrink:0, overflowY:'auto' }}>
+        <div style={{ padding:'4px 8px 16px', borderBottom:'1px solid rgba(255,255,255,0.08)', marginBottom:8 }}>
+          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+            <LogoMark size={28} />
+            <span style={{ color:'#fff', fontWeight:700, fontSize:13 }}>buymaterials</span>
+          </div>
+        </div>
+        {navItems.map(item => (
+          <button key={item.id}
+            onClick={() => { setActiveNav(item.id); if (item.id === 'Marketplace') onMarketplaceClick(); }}
+            style={{ display:'flex', alignItems:'center', gap:10, padding:'9px 10px', borderRadius:8, border:'none', cursor:'pointer', transition:'all .15s', marginBottom:2,
+              background: activeNav === item.id ? C.mint : 'transparent',
+              color: activeNav === item.id ? '#fff' : 'rgba(255,255,255,0.5)',
+              fontFamily:'Poppins', fontSize:13, fontWeight: activeNav === item.id ? 600 : 400,
+            }}>
+            <Icon name={item.icon} size={16} color={activeNav === item.id ? '#fff' : 'rgba(255,255,255,0.5)'} />
+            {item.id}
+            {item.badge && <span style={{ marginLeft:'auto', background:C.danger, color:'#fff', fontSize:9, fontWeight:700, borderRadius:99, padding:'1px 5px' }}>{item.badge}</span>}
+          </button>
+        ))}
+        <div style={{ marginTop:'auto', padding:'12px 8px 0', borderTop:'1px solid rgba(255,255,255,0.08)' }}>
+          <div style={{ display:'flex', alignItems:'center', gap:8 }}>
+            <div style={{ width:32, height:32, borderRadius:'50%', background:C.mint, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+              <span style={{ color:'#fff', fontSize:12, fontWeight:700 }}>MB</span>
+            </div>
+            <div>
+              <div style={{ color:'#fff', fontSize:12, fontWeight:600 }}>MB Supplies</div>
+              <div style={{ color:'rgba(255,255,255,0.4)', fontSize:10 }}>Merchant</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Main content */}
+      <div style={{ flex:1, overflowY:'auto', padding:28 }}>
+        <div style={{ maxWidth:1000 }}>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:24 }}>
+            <div>
+              <h1 style={{ fontSize:22, fontWeight:700, color:C.navy }}>Dashboard</h1>
+              <div style={{ fontSize:12, color:C.grey4, marginTop:2 }}>Welcome back, MB Supplies · Mon 14 Apr 2025</div>
+            </div>
+            <Btn variant="primary" size="m">
+              <Icon name="plus" size={14} color="white"/>
+              Add product
+            </Btn>
+          </div>
+
+          {/* Stats */}
+          <div style={{ display:'grid', gridTemplateColumns:'repeat(4, 1fr)', gap:16, marginBottom:28 }}>
+            {[
+              { label:'Total Revenue', value:'€148,240', delta:'+12.4%', icon:'trending', color:C.mint },
+              { label:'Active Orders', value:'24', delta:'+3 today', icon:'orders', color:C.info },
+              { label:'Products Listed', value:'186', delta:'8 pending', icon:'package', color:C.warning },
+              { label:'Buyers', value:'52', delta:'+2 this week', icon:'users', color:C.success },
+            ].map(stat => (
+              <div key={stat.label} style={{ background:C.white, borderRadius:12, padding:'18px 20px', boxShadow:'0 2px 4px rgba(0,0,0,0.06)' }}>
+                <div style={{ display:'flex', justifyContent:'space-between', alignItems:'flex-start', marginBottom:12 }}>
+                  <span style={{ fontSize:11, fontWeight:600, color:C.grey6 }}>{stat.label}</span>
+                  <div style={{ width:32, height:32, borderRadius:8, background:`${stat.color}20`, display:'flex', alignItems:'center', justifyContent:'center' }}>
+                    <Icon name={stat.icon} size={15} color={stat.color} />
+                  </div>
+                </div>
+                <div style={{ fontSize:22, fontWeight:700, color:C.navy }}>{stat.value}</div>
+                <div style={{ fontSize:11, color:C.success, marginTop:4, fontWeight:500 }}>{stat.delta}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Orders table */}
+          <div style={{ background:C.white, borderRadius:12, boxShadow:'0 2px 4px rgba(0,0,0,0.06)', overflow:'hidden' }}>
+            <div style={{ padding:'16px 20px', borderBottom:`1px solid ${C.grey2}`, display:'flex', justifyContent:'space-between', alignItems:'center' }}>
+              <h2 style={{ fontSize:15, fontWeight:700, color:C.navy }}>Recent Orders</h2>
+              <Btn variant="tertiary" size="s">View all <Icon name="chevronRight" size={12} color={C.mint}/></Btn>
+            </div>
+            <table style={{ width:'100%', borderCollapse:'collapse' }}>
+              <thead>
+                <tr style={{ background:C.grey1 }}>
+                  {['Order ID','Buyer','Items','Value','Status','Date'].map(h => (
+                    <th key={h} style={{ padding:'10px 16px', textAlign:'left', fontSize:11, fontWeight:600, color:C.grey4, letterSpacing:'0.04em', textTransform:'uppercase' }}>{h}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {ORDERS.map((order, i) => (
+                  <tr key={order.id} style={{ borderBottom:`1px solid ${C.grey1}`, background: i%2===0 ? C.white : C.grey1+'80' }}>
+                    <td style={{ padding:'12px 16px', fontSize:13, fontWeight:600, color:C.mintDark }}>{order.id}</td>
+                    <td style={{ padding:'12px 16px', fontSize:13, color:C.navy }}>{order.buyer}</td>
+                    <td style={{ padding:'12px 16px', fontSize:13, color:C.grey6, textAlign:'center' }}>{order.items}</td>
+                    <td style={{ padding:'12px 16px', fontSize:13, fontWeight:600, color:C.navy }}>{order.value}</td>
+                    <td style={{ padding:'12px 16px' }}>
+                      <Badge status={STAT_STATUS_MAP[order.status]}>{ORDER_STATUS_LABEL[order.status]}</Badge>
+                    </td>
+                    <td style={{ padding:'12px 16px', fontSize:12, color:C.grey4 }}>{order.date}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+// ── App router ────────────────────────────────────────────────────
+const SCREENS = { marketplace: 'marketplace', detail: 'detail', dashboard: 'dashboard' };
+
+const App = () => {
+  const savedScreen = localStorage.getItem('bm_screen') || SCREENS.marketplace;
+  const [screen, setScreenRaw] = useState(savedScreen);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const setScreen = s => { setScreenRaw(s); localStorage.setItem('bm_screen', s); };
+
+  const handleProductClick = (product) => {
+    setSelectedProduct(product);
+    setScreen(SCREENS.detail);
+  };
+
+  if (screen === SCREENS.detail && selectedProduct) {
+    return <ProductDetailScreen product={selectedProduct} onBack={() => setScreen(SCREENS.marketplace)} />;
+  }
+  if (screen === SCREENS.dashboard) {
+    return <MerchantDashboard onMarketplaceClick={() => setScreen(SCREENS.marketplace)} />;
+  }
+  return <MarketplaceScreen onProductClick={handleProductClick} onDashboardClick={() => setScreen(SCREENS.dashboard)} />;
+};
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

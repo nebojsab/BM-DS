@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html><head>
+<style>
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+</style><meta charset="utf-8">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Poppins', sans-serif; background: #fff; padding: 20px 24px; }
+  .section { margin-bottom: 18px; }
+  .label { font-size: 10px; font-weight: 600; color: #999; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; }
+  .tokens { display: flex; gap: 10px; flex-wrap: wrap; align-items: flex-end; }
+  .token { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+  .box { background: #56D2BA; border-radius: 3px; }
+  .name { font-family: 'Inter', sans-serif; font-size: 9px; color: #666; }
+
+  .shadow-row { display: flex; gap: 16px; flex-wrap: wrap; }
+  .shadow-card { width: 80px; height: 60px; border-radius: 8px; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  .shadow-card span { font-size: 9px; color: #999; margin-top: 4px; }
+
+  .radius-row { display: flex; gap: 12px; align-items: flex-end; }
+  .radius-box { width: 56px; height: 56px; background: #56D2BA; display: flex; align-items: center; justify-content: center; }
+  .radius-box span { font-size: 9px; color: #fff; font-weight: 600; }
+</style>
+</head><body>
+  <div class="section">
+    <div class="label">Spacing Scale</div>
+    <div class="tokens">
+      <div class="token"><div class="box" style="width:4px;height:4px"></div><div class="name">4</div></div>
+      <div class="token"><div class="box" style="width:8px;height:8px"></div><div class="name">8</div></div>
+      <div class="token"><div class="box" style="width:12px;height:12px"></div><div class="name">12</div></div>
+      <div class="token"><div class="box" style="width:16px;height:16px"></div><div class="name">16</div></div>
+      <div class="token"><div class="box" style="width:20px;height:20px"></div><div class="name">20</div></div>
+      <div class="token"><div class="box" style="width:24px;height:24px"></div><div class="name">24</div></div>
+      <div class="token"><div class="box" style="width:32px;height:32px"></div><div class="name">32</div></div>
+      <div class="token"><div class="box" style="width:40px;height:40px"></div><div class="name">40</div></div>
+      <div class="token"><div class="box" style="width:48px;height:48px"></div><div class="name">48</div></div>
+      <div class="token"><div class="box" style="width:64px;height:64px"></div><div class="name">64</div></div>
+    </div>
+  </div>
+  <div style="display:flex;gap:40px">
+    <div class="section">
+      <div class="label">Border Radius</div>
+      <div class="radius-row">
+        <div class="token"><div class="radius-box" style="border-radius:4px"><span>4</span></div><div class="name">xs</div></div>
+        <div class="token"><div class="radius-box" style="border-radius:8px"><span>8</span></div><div class="name">sm</div></div>
+        <div class="token"><div class="radius-box" style="border-radius:12px"><span>12</span></div><div class="name">md</div></div>
+        <div class="token"><div class="radius-box" style="border-radius:16px"><span>16</span></div><div class="name">lg</div></div>
+        <div class="token"><div class="radius-box" style="border-radius:9999px;width:64px;height:32px"><span>full</span></div><div class="name">full</div></div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="label">Shadows / Elevation</div>
+      <div class="shadow-row">
+        <div class="token"><div class="shadow-card" style="box-shadow:0px 2px 4px rgba(0,0,0,0.08)"></div><div class="name">sm</div></div>
+        <div class="token"><div class="shadow-card" style="box-shadow:0px 4px 4px -2px rgba(0,0,0,0.15)"></div><div class="name">md</div></div>
+        <div class="token"><div class="shadow-card" style="box-shadow:0px 8px 24px rgba(0,0,0,0.12)"></div><div class="name">lg</div></div>
+        <div class="token"><div class="shadow-card" style="box-shadow:0px 16px 40px rgba(0,0,0,0.14)"></div><div class="name">xl</div></div>
+      </div>
+    </div>
+  </div>
+</body></html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html><head>
+<style>
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+</style><meta charset="utf-8">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Poppins', sans-serif; background: #fff; padding: 20px 24px; }
+  .row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; margin-bottom: 16px; }
+  .label { font-size: 10px; font-weight: 600; color: #999; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; }
+  /* Base button */
+  .btn { display: inline-flex; align-items: center; gap: 6px; font-family: 'Poppins', sans-serif; font-weight: 600; border-radius: 8px; border: none; cursor: pointer; transition: background 0.15s; }
+  /* Sizes */
+  .btn-l { font-size: 16px; padding: 0 20px; height: 48px; }
+  .btn-m { font-size: 14px; padding: 0 16px; height: 40px; }
+  .btn-s { font-size: 12px; padding: 0 12px; height: 32px; }
+  /* Styles */
+  .primary { background: #56D2BA; color: #fff; }
+  .secondary { background: transparent; color: #56D2BA; border: 1.5px solid #56D2BA; }
+  .tertiary { background: transparent; color: #56D2BA; }
+  .destructive { background: #D64949; color: #fff; }
+  .ghost { background: #F7F7F7; color: #212623; }
+  /* States */
+  .disabled { opacity: 0.4; cursor: not-allowed; }
+  .hover-primary { background: #4EBFA9; color: #fff; }
+  .pressed { background: #3D9584; color: #fff; }
+  .icon-only { width: 40px; padding: 0; justify-content: center; border-radius: 8px; }
+</style>
+</head><body>
+  <div class="label">Primary Styles</div>
+  <div class="row">
+    <button class="btn btn-m primary">Primary</button>
+    <button class="btn btn-m secondary">Secondary</button>
+    <button class="btn btn-m tertiary">Tertiary</button>
+    <button class="btn btn-m destructive">Destructive</button>
+    <button class="btn btn-m ghost">Ghost</button>
+  </div>
+  <div class="label">Sizes — Primary</div>
+  <div class="row">
+    <button class="btn btn-s primary">Small</button>
+    <button class="btn btn-m primary">Medium</button>
+    <button class="btn btn-l primary">Large</button>
+  </div>
+  <div class="label">States — Primary Medium</div>
+  <div class="row">
+    <button class="btn btn-m primary">Default</button>
+    <button class="btn btn-m hover-primary">Hover</button>
+    <button class="btn btn-m pressed">Pressed</button>
+    <button class="btn btn-m primary disabled" disabled>Disabled</button>
+    <button class="btn btn-m primary icon-only">
+      <svg width="16" height="16" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+  </div>
+  <div class="label">With Icons</div>
+  <div class="row">
+    <button class="btn btn-m primary">
+      <svg width="14" height="14" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+      Add item
+    </button>
+    <button class="btn btn-m secondary">
+      <svg width="14" height="14" fill="none" stroke="#56D2BA" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      Search
+    </button>
+    <button class="btn btn-m primary">
+      Get quote
+      <svg width="14" height="14" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</body></html>

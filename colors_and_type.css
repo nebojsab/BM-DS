@@ -1,0 +1,298 @@
+/*
+ * BuyMaterials Design System
+ * colors_and_type.css
+ * ─────────────────────────────────────────────
+ * All CSS custom properties for colors and typography.
+ * Import this file first, then use variables in your components.
+ *
+ * Poppins: loaded from local fonts/ directory (brand font files).
+ * Inter: loaded via Google Fonts (no brand file supplied).
+ * @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+ */
+
+/* ── Poppins @font-face (local brand files) ─ */
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Thin.ttf') format('truetype'); font-weight: 100; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ThinItalic.ttf') format('truetype'); font-weight: 100; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraLight.ttf') format('truetype'); font-weight: 200; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraLightItalic.ttf') format('truetype'); font-weight: 200; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Light.ttf') format('truetype'); font-weight: 300; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-LightItalic.ttf') format('truetype'); font-weight: 300; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Italic.ttf') format('truetype'); font-weight: 400; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-MediumItalic.ttf') format('truetype'); font-weight: 500; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-SemiBoldItalic.ttf') format('truetype'); font-weight: 600; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-BoldItalic.ttf') format('truetype'); font-weight: 700; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraBold.ttf') format('truetype'); font-weight: 800; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-ExtraBoldItalic.ttf') format('truetype'); font-weight: 800; font-style: italic; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Black.ttf') format('truetype'); font-weight: 900; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-BlackItalic.ttf') format('truetype'); font-weight: 900; font-style: italic; }
+
+/* ── Brand / Primary (Mint) ─────────────────── */
+:root {
+  --color-mint-900: #2F7466;
+  --color-mint-800: #3D9584;
+  --color-mint-700: #4EBFA9;
+  --color-mint-600: #56D2BA;   /* Primary brand color */
+  --color-mint-500: #78DBC8;
+  --color-mint-400: #8EE1D1;
+  --color-mint-300: #B1EADF;
+  --color-mint-200: #CBF1EA;
+  --color-mint-100: #EEFBF8;
+
+  /* ── Neutral / Text ─────────────────────────── */
+  --color-navy:       #00001E;   /* Text primary */
+  --color-dark:       #212623;   /* Sidebar background */
+  --color-grey-700:   #333333;
+  --color-grey-600:   #515151;   /* rgb(106,110,108) */
+  --color-grey-500:   #666666;
+  --color-grey-400:   #999B9A;
+  --color-grey-300:   #CACBCA;
+  --color-grey-200:   #E4E5E5;
+  --color-grey-150:   #EEEEEE;
+  --color-grey-100:   #F7F7F7;
+  --color-grey-50:    #F9F9F9;
+  --color-white:      #FFFFFF;
+
+  /* ── Semantic: Success ──────────────────────── */
+  --color-success-900: #216D2D;
+  --color-success-800: #2B8D3A;
+  --color-success-700: #37B54B;
+  --color-success-600: #3CC752;   /* Main success */
+  --color-success-500: #63D275;
+  --color-success-400: #7CD98B;
+  --color-success-300: #A5E5AF;
+  --color-success-200: #C3EEC9;
+  --color-success-100: #ECF9EE;
+
+  /* ── Semantic: Info ─────────────────────────── */
+  --color-info-900: #276174;
+  --color-info-800: #327D95;
+  --color-info-700: #41A0BF;
+  --color-info-600: #47B0D2;   /* Main info */
+  --color-info-500: #6CC0DB;
+  --color-info-400: #84CAE1;
+  --color-info-300: #AADBEA;
+  --color-info-200: #C6E7F1;
+  --color-info-100: #EDF7FB;
+
+  /* ── Semantic: Danger ───────────────────────── */
+  --color-danger-900: #762828;
+  --color-danger-800: #983434;
+  --color-danger-700: #C34242;
+  --color-danger-600: #D64949;   /* Main danger */
+  --color-danger-500: #DE6D6D;
+  --color-danger-400: #E48585;
+  --color-danger-300: #ECABAB;
+  --color-danger-200: #F2C7C7;
+  --color-danger-100: #FBEDED;
+
+  /* ── Semantic: Warning ──────────────────────── */
+  --color-warning-900: #81552A;
+  --color-warning-800: #A76D36;
+  --color-warning-700: #D68C45;
+  --color-warning-600: #EB9A4C;   /* Main warning */
+  --color-warning-500: #EFAE70;
+  --color-warning-400: #F2BB87;
+  --color-warning-300: #F6D1AD;
+  --color-warning-200: #F9E0C8;
+  --color-warning-100: #FDF5ED;
+
+  /* ── Semantic: Purple ───────────────────────── */
+  --color-purple-900: #360083;
+  --color-purple-800: #4600A9;
+  --color-purple-700: #5900D9;
+  --color-purple-600: #6200EE;   /* Main purple */
+  --color-purple-500: #8133F1;
+  --color-purple-400: #9654F4;
+  --color-purple-300: #B78AF7;
+  --color-purple-200: #CEB0FA;
+  --color-purple-100: #EFE6FD;
+
+  /* ── Semantic Aliases ───────────────────────── */
+  --color-brand:     var(--color-mint-600);
+  --color-brand-dark: var(--color-mint-900);
+  --color-brand-light: var(--color-mint-100);
+
+  --color-text-primary:   var(--color-navy);
+  --color-text-secondary: var(--color-grey-500);
+  --color-text-disabled:  var(--color-grey-300);
+  --color-text-inverse:   var(--color-white);
+  --color-text-brand:     var(--color-mint-900);
+
+  --color-bg-page:    #F6F6F6;
+  --color-bg-card:    var(--color-white);
+  --color-bg-sidebar: var(--color-dark);
+  --color-bg-subtle:  var(--color-grey-50);
+
+  --color-border:         var(--color-grey-150);
+  --color-border-strong:  var(--color-grey-300);
+  --color-border-focus:   var(--color-mint-600);
+
+  /* ── Shadows ────────────────────────────────── */
+  --shadow-sm:  0px 2px 4px rgba(0,0,0,0.08);
+  --shadow-md:  0px 4px 4px -2px rgba(0,0,0,0.15);
+  --shadow-lg:  0px 8px 24px rgba(0,0,0,0.12);
+  --shadow-xl:  0px 16px 40px rgba(0,0,0,0.14);
+
+  /* ── Border Radius ──────────────────────────── */
+  --radius-xs:  4px;
+  --radius-sm:  8px;
+  --radius-md:  12px;
+  --radius-lg:  16px;
+  --radius-xl:  24px;
+  --radius-2xl: 32px;
+  --radius-full: 9999px;
+
+  /* ── Spacing ────────────────────────────────── */
+  --space-1:  4px;
+  --space-2:  8px;
+  --space-3:  12px;
+  --space-4:  16px;
+  --space-5:  20px;
+  --space-6:  24px;
+  --space-8:  32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+
+  /* ── Fonts ──────────────────────────────────── */
+  --font-sans:   'Poppins', sans-serif;
+  --font-data:   'Inter', sans-serif;
+
+  /* ── Font Sizes ─────────────────────────────── */
+  --text-xs:   10px;
+  --text-sm:   12px;
+  --text-md:   14px;
+  --text-base: 16px;
+  --text-lg:   18px;
+  --text-xl:   20px;
+  --text-2xl:  24px;
+  --text-3xl:  29px;
+  --text-4xl:  36px;
+  --text-5xl:  40px;
+
+  /* ── Font Weights ────────────────────────────── */
+  --weight-regular:   400;
+  --weight-medium:    500;
+  --weight-semibold:  600;
+  --weight-bold:      700;
+}
+
+/* ── Semantic Typography Styles ─────────────────────────────────── */
+
+h1, .h1 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-3xl);   /* 29px */
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+h2, .h2 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-2xl);   /* 24px */
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+h3, .h3 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-xl);    /* 20px */
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+h4, .h4 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-base);  /* 16px */
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+h5, .h5 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-md);    /* 14px */
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+h6, .h6 {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);    /* 12px */
+  line-height: 1.4;
+  color: var(--color-text-primary);
+}
+
+p, .body-m {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-md);    /* 14px */
+  line-height: 1.6;
+  color: var(--color-text-primary);
+}
+
+.body-l {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-base);  /* 16px */
+  line-height: 1.6;
+}
+
+.body-s {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-sm);    /* 12px */
+  line-height: 1.6;
+}
+
+.caption {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-sm);    /* 12px */
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+}
+
+.pre-title {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-semibold);
+  font-size: var(--text-sm);    /* 12px */
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.btn-l { font-family: var(--font-sans); font-weight: var(--weight-semibold); font-size: var(--text-base); line-height: 1; }
+.btn-m { font-family: var(--font-sans); font-weight: var(--weight-semibold); font-size: var(--text-md); line-height: 1; }
+.btn-s { font-family: var(--font-sans); font-weight: var(--weight-semibold); font-size: var(--text-sm); line-height: 1; }
+
+a, .link {
+  font-family: var(--font-sans);
+  font-weight: var(--weight-regular);
+  font-size: var(--text-base);
+  text-decoration: underline;
+  color: var(--color-text-brand);
+}
+
+/* ── Data / Monospaced values (Inter) ────────── */
+.data-label {
+  font-family: var(--font-data);
+  font-weight: var(--weight-medium);
+  font-size: var(--text-md);
+  line-height: 1.4;
+}
+
+.data-value {
+  font-family: var(--font-data);
+  font-weight: var(--weight-bold);
+  font-size: var(--text-base);
+  line-height: 1.4;
+}

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html><head>
+<style>
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+</style><meta charset="utf-8">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Poppins', sans-serif; background: #F7F7F7; padding: 20px; display: flex; gap: 16px; }
+  .sidebar { width: 220px; background: #212623; border-radius: 12px; padding: 16px 12px; display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; min-height: 360px; }
+  .logo-area { padding: 4px 8px 16px; border-bottom: 1px solid rgba(255,255,255,0.1); margin-bottom: 8px; }
+  .logo-text { color: #fff; font-weight: 700; font-size: 14px; display: flex; align-items: center; gap: 8px; }
+  .logo-icon { width: 24px; height: 24px; background: #56D2BA; border-radius: 5px; display: flex; align-items: center; justify-content: center; }
+  .nav-item { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 8px; color: rgba(255,255,255,0.55); font-size: 13px; cursor: pointer; transition: all 0.15s; }
+  .nav-item:hover { background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.85); }
+  .nav-item.active { background: #56D2BA; color: #fff; font-weight: 600; }
+  .nav-icon { width: 16px; height: 16px; opacity: 0.8; flex-shrink: 0; }
+  .nav-item.active .nav-icon { opacity: 1; }
+  .badge { background: #D64949; color: #fff; font-size: 9px; font-weight: 700; border-radius: 99px; padding: 1px 5px; margin-left: auto; }
+  .badge-mint { background: #56D2BA; }
+  .section-label { color: rgba(255,255,255,0.3); font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; padding: 12px 10px 4px; }
+  .content { flex: 1; background: #fff; border-radius: 12px; padding: 20px; }
+  .content-title { font-size: 20px; font-weight: 700; color: #00001E; margin-bottom: 4px; }
+  .content-sub { font-size: 12px; color: #999; }
+</style>
+</head><body>
+  <div class="sidebar">
+    <div class="logo-area">
+      <div class="logo-text">
+        <div class="logo-icon">
+          <svg width="14" height="14" fill="none" viewBox="0 0 24 24"><path d="M13 3L4 14h7l-1 7 9-11h-7l1-7z" fill="white"/></svg>
+        </div>
+        buymaterials
+      </div>
+    </div>
+    <div class="nav-item active">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
+      Marketplace
+      <span class="badge badge-mint">New</span>
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+      Orders
+      <span class="badge">5</span>
+    </div>
+    <div class="section-label">Management</div>
+    <div class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+      Branches
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
+      Buyers
+    </div>
+  </div>
+  <div class="content">
+    <div class="content-title">Navigation — Desktop Sidebar</div>
+    <div class="content-sub">Dark bg #212623 · Brand mint active state · 220px width · 12px radius</div>
+  </div>
+</body></html>

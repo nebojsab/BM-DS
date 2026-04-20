@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html><head>
+<style>
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+</style><meta charset="utf-8">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Poppins', sans-serif; background: #fff; padding: 20px 24px; }
+  .label { font-size: 10px; font-weight: 600; color: #999; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; }
+  .row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; align-items: center; }
+  .badge { display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600; border-radius: 4px; padding: 3px 8px; }
+  .badge-lg { font-size: 12px; padding: 4px 10px; border-radius: 6px; }
+  .badge-pill { border-radius: 9999px; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+</style>
+</head><body>
+  <div class="label">Semantic Status Badges</div>
+  <div class="row">
+    <span class="badge" style="background:#ECF9EE;color:#216D2D"><span class="dot" style="background:#3CC752"></span>Success</span>
+    <span class="badge" style="background:#FBEDED;color:#762828"><span class="dot" style="background:#D64949"></span>Danger</span>
+    <span class="badge" style="background:#FDF5ED;color:#81552A"><span class="dot" style="background:#EB9A4C"></span>Warning</span>
+    <span class="badge" style="background:#EDF7FB;color:#276174"><span class="dot" style="background:#47B0D2"></span>Info</span>
+    <span class="badge" style="background:#F7F7F7;color:#666"><span class="dot" style="background:#999B9A"></span>Neutral</span>
+    <span class="badge" style="background:#EFE6FD;color:#360083"><span class="dot" style="background:#6200EE"></span>Purple</span>
+  </div>
+  <div class="label">Brand + Outlined</div>
+  <div class="row">
+    <span class="badge" style="background:#56D2BA;color:#fff">Brand</span>
+    <span class="badge" style="background:#EEFBF8;color:#2F7466">Mint</span>
+    <span class="badge" style="background:#fff;color:#56D2BA;border:1.5px solid #56D2BA">Outlined</span>
+    <span class="badge" style="background:#212623;color:#fff">Dark</span>
+    <span class="badge" style="background:#F7F7F7;color:#333">Default</span>
+  </div>
+  <div class="label">Pill Variants</div>
+  <div class="row">
+    <span class="badge badge-pill" style="background:#ECF9EE;color:#216D2D">Active</span>
+    <span class="badge badge-pill" style="background:#FBEDED;color:#762828">Cancelled</span>
+    <span class="badge badge-pill" style="background:#FDF5ED;color:#81552A">Pending</span>
+    <span class="badge badge-pill" style="background:#EDF7FB;color:#276174">Processing</span>
+    <span class="badge badge-pill" style="background:#56D2BA;color:#fff">New</span>
+    <span class="badge badge-pill" style="background:#F7F7F7;color:#666">Draft</span>
+  </div>
+  <div class="label">Counter / Number Badges</div>
+  <div class="row">
+    <span class="badge badge-pill" style="background:#D64949;color:#fff;min-width:20px;justify-content:center">3</span>
+    <span class="badge badge-pill" style="background:#56D2BA;color:#fff;min-width:20px;justify-content:center">12</span>
+    <span class="badge badge-pill" style="background:#212623;color:#fff;min-width:20px;justify-content:center">99+</span>
+    <span class="badge badge-pill" style="background:#EB9A4C;color:#fff;min-width:20px;justify-content:center">!</span>
+  </div>
+</body></html>

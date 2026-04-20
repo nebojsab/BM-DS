@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html><head>
+<style>
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-SemiBold.ttf') format('truetype'); font-weight: 600; font-style: normal; }
+@font-face { font-family: 'Poppins'; src: url('../fonts/Poppins-Bold.ttf') format('truetype'); font-weight: 700; font-style: normal; }
+</style><meta charset="utf-8">
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Poppins', sans-serif; background: #fff; padding: 20px 24px; }
+  .label { font-size: 10px; font-weight: 600; color: #999; letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; }
+  .row { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 20px; align-items: flex-start; }
+  .field { display: flex; flex-direction: column; gap: 4px; min-width: 160px; }
+  .field-label { font-size: 11px; font-weight: 600; color: #212623; }
+  .field-sub { font-size: 10px; color: #999; }
+  .input { font-family: 'Poppins', sans-serif; font-size: 13px; height: 40px; border-radius: 8px; border: 1.5px solid #CACBCA; padding: 0 12px; color: #212623; background: #fff; outline: none; width: 100%; }
+  .input:focus { border-color: #56D2BA; }
+  .input-error { border-color: #D64949; }
+  .input-disabled { background: #F7F7F7; color: #999; cursor: not-allowed; }
+  .input-icon { position: relative; }
+  .input-icon input { padding-left: 36px; }
+  .input-icon svg { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); pointer-events: none; }
+  .helper { font-size: 10px; margin-top: 2px; }
+  .helper-error { color: #D64949; }
+  .helper-hint { color: #999; }
+  .select { appearance: none; background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23999B9A' stroke-width='1.5'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 12px center; padding-right: 32px; }
+</style>
+</head><body>
+  <div class="label">Text Inputs</div>
+  <div class="row">
+    <div class="field">
+      <span class="field-label">Default</span>
+      <input class="input" placeholder="Enter value..." />
+    </div>
+    <div class="field">
+      <span class="field-label">With value</span>
+      <input class="input" value="Portland cement 42.5R" />
+    </div>
+    <div class="field">
+      <span class="field-label">Error state</span>
+      <input class="input input-error" value="invalid@" />
+      <span class="helper helper-error">This field is required</span>
+    </div>
+    <div class="field">
+      <span class="field-label">Disabled</span>
+      <input class="input input-disabled" value="Read only value" disabled />
+    </div>
+  </div>
+  <div class="label">With Icons + Select</div>
+  <div class="row">
+    <div class="field">
+      <span class="field-label">Search</span>
+      <div class="input-icon">
+        <svg width="14" height="14" fill="none" stroke="#999" stroke-width="2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input class="input" placeholder="Search products..." />
+      </div>
+    </div>
+    <div class="field">
+      <span class="field-label">Select</span>
+      <select class="input select">
+        <option>All categories</option>
+        <option>Cement & Concrete</option>
+        <option>Steel & Iron</option>
+      </select>
+    </div>
+    <div class="field">
+      <span class="field-label">Quantity</span>
+      <div class="input-icon">
+        <svg width="14" height="14" fill="none" stroke="#999" stroke-width="2" viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        <input class="input" value="250" type="number" />
+      </div>
+      <span class="helper helper-hint">Minimum order: 100 units</span>
+    </div>
+  </div>
+</body></html>
