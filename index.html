@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>BuyMaterials Design System</title>
+<style>
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Regular.ttf') format('truetype'); font-weight: 400; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Medium.ttf') format('truetype'); font-weight: 500; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-SemiBold.ttf') format('truetype'); font-weight: 600; }
+@font-face { font-family: 'Poppins'; src: url('fonts/Poppins-Bold.ttf') format('truetype'); font-weight: 700; }
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Poppins', sans-serif; background: #F6F6F6; color: #00001E; min-height: 100vh; }
+
+header {
+  background: #212623;
+  padding: 0 40px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.logo-mark {
+  width: 32px; height: 32px;
+  background: #56D2BA;
+  border-radius: 7px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+header h1 { color: #fff; font-size: 15px; font-weight: 700; }
+header span { color: rgba(255,255,255,0.4); font-size: 13px; margin-left: 4px; }
+
+.hero {
+  background: #212623;
+  padding: 56px 40px 48px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.hero h2 { color: #fff; font-size: 32px; font-weight: 700; margin-bottom: 8px; }
+.hero p { color: rgba(255,255,255,0.5); font-size: 14px; max-width: 520px; line-height: 1.7; }
+.hero-tags { display: flex; gap: 8px; margin-top: 20px; flex-wrap: wrap; }
+.tag { background: rgba(86,210,186,0.15); color: #56D2BA; font-size: 11px; font-weight: 600; border-radius: 4px; padding: 4px 10px; }
+
+main { max-width: 1100px; margin: 0 auto; padding: 40px; }
+
+.section-title {
+  font-size: 11px; font-weight: 600; color: #999B9A;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  margin-bottom: 16px; margin-top: 40px;
+  display: flex; align-items: center; gap: 10px;
+}
+.section-title::after { content: ''; flex: 1; height: 1px; background: #E4E5E5; }
+.section-title:first-child { margin-top: 0; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+.grid-wide { grid-template-columns: 1fr; }
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, transform 0.2s;
+  cursor: pointer;
+}
+.card:hover {
+  box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+  transform: translateY(-2px);
+}
+.card-preview {
+  width: 100%; height: 180px;
+  border-bottom: 1px solid #F0F0F0;
+  overflow: hidden;
+  position: relative;
+  background: #F9F9F9;
+}
+.card-preview iframe {
+  width: 200%;
+  height: 200%;
+  transform: scale(0.5);
+  transform-origin: top left;
+  border: none;
+  pointer-events: none;
+}
+.card-preview.tall iframe { width: 150%; height: 150%; transform: scale(0.667); }
+.card-info { padding: 14px 16px; }
+.card-info h3 { font-size: 13px; font-weight: 600; color: #00001E; margin-bottom: 3px; }
+.card-info p { font-size: 11px; color: #999B9A; line-height: 1.5; }
+.card-info .open-link {
+  display: inline-flex; align-items: center; gap: 4px;
+  margin-top: 10px; font-size: 11px; font-weight: 600;
+  color: #56D2BA; text-decoration: none;
+}
+.card-info .open-link svg { flex-shrink: 0; }
+
+.kit-card {
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.kit-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,0.12); transform: translateY(-2px); }
+.kit-preview { height: 380px; position: relative; overflow: hidden; border-bottom: 1px solid #F0F0F0; background: #F6F6F6; }
+.kit-preview iframe { width: 160%; height: 160%; transform: scale(0.625); transform-origin: top left; border: none; pointer-events: none; }
+.kit-info { padding: 20px 24px; display: flex; align-items: center; justify-content: space-between; }
+.kit-info h3 { font-size: 16px; font-weight: 700; color: #00001E; }
+.kit-info p { font-size: 12px; color: #999; margin-top: 2px; }
+.btn-open {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: #56D2BA; color: #fff;
+  font-family: 'Poppins', sans-serif; font-size: 13px; font-weight: 600;
+  padding: 10px 18px; border-radius: 8px;
+  text-decoration: none; flex-shrink: 0;
+  transition: background 0.15s;
+}
+.btn-open:hover { background: #4EBFA9; }
+
+footer {
+  text-align: center;
+  padding: 40px;
+  font-size: 12px;
+  color: #CACBCA;
+  border-top: 1px solid #E4E5E5;
+  margin-top: 60px;
+}
+
+/* Color swatches inline */
+.swatch-row { display: flex; gap: 0; height: 100%; }
+.swatch-cell { flex: 1; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo-mark">
+    <svg width="18" height="18" viewBox="0 0 16 16" fill="white"><path d="M9 2L3 9h5l-1 5 7-7H9l1-5z"/></svg>
+  </div>
+  <h1>buymaterials<span>/ Design System</span></h1>
+</header>
+
+<div class="hero">
+  <h2>Design System Library</h2>
+  <p>Visual foundations, component guidelines, and interactive UI kit for the BuyMaterials B2B marketplace platform.</p>
+  <div class="hero-tags">
+    <span class="tag">Poppins</span>
+    <span class="tag">Mint #56D2BA</span>
+    <span class="tag">Buyer Marketplace</span>
+    <span class="tag">Merchant Dashboard</span>
+    <span class="tag">Mobile Web</span>
+  </div>
+</div>
+
+<main>
+
+  <!-- UI Kit -->
+  <div class="section-title">Interactive UI Kit</div>
+  <div class="kit-card">
+    <div class="kit-preview">
+      <iframe src="ui_kits/web/index.html" title="Web UI Kit" loading="lazy"></iframe>
+    </div>
+    <div class="kit-info">
+      <div>
+        <h3>Web UI Kit</h3>
+        <p>Marketplace · Product Detail · Merchant Dashboard — click-through prototype</p>
+      </div>
+      <a class="btn-open" href="ui_kits/web/index.html" target="_blank">
+        Open
+        <svg width="14" height="14" fill="none" stroke="white" stroke-width="2" viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"/></svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Colors -->
+  <div class="section-title">Colors</div>
+  <div class="grid">
+    <a class="card" href="preview/colors-brand.html" target="_blank">
+      <div class="card-preview">
+        <iframe src="preview/colors-brand.html" loading="lazy"></iframe>
+      </div>
+      <div class="card-info">
+        <h3>Brand Colors — Mint Scale</h3>
+        <p>Primary mint color scale from #2F7466 → #EEFBF8</p>
+        <span class="open-link">Open ›</span>
+      </div>
+    </a>
+    <a class="card" href="preview/colors-neutral.html" target="_blank">
+      <div class="card-preview">
+        <iframe src="preview/colors-neutral.html" loading="lazy"></iframe>
+      </div>
+      <div class="card-info">
+        <h3>Neutral Colors</h3>
+        <p>Full neutral grey scale from Navy #00001E to White</p>
+        <span class="open-link">Open ›</span>
+      </div>
+    </a>
+    <a class="card" href="preview/colors-semantic.html" target="_blank">
+      <div class="card-preview tall">
+        <iframe src="preview/colors-semantic.html" loading="lazy"></iframe>
+      </div>
+      <div class="card-info">
+        <h3>Semantic Colors</h3>
+        <p>Success, Danger, Warning, Info — full scales</p>
+        <span class="open-link">Open ›</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Typography -->
+  <div class="section-title">Typography</div>
+  <div class="grid">
+    <a class="card" href="preview/type-scale.html" target="_blank" style="grid-column: span 2;">
+      <div class="card-preview tall">
+        <iframe src="preview/type-scale.html" loading="lazy"></iframe>
+      </div>
+      <div class="card-info">
+        <h3>Type Scale</h3>
+        <p>H1–H6, Body L/M/S, Caption, Pre-title — Poppins family</p>
+        <span class="open-link">Open ›</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Spacing -->
+  <div class="section-title">Spacing & Elevation</div>
+  <div class="grid">
+    <a class="card" href="preview/spacing-tokens.html" target="_blank" style="grid-column: span 2;">
+      <div class="card-preview tall">
+        <iframe src="preview/spacing-tokens.html" loading="lazy"></iframe>
+      </div>
+      <div class="card-info">
+        <h3>Spacing & Elevation Tokens</h3>
+        <p>Spacing scale, border radius, and shadow elevation tokens</p>
+        <span class="open-link">Open ›</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Components -->
+  <div class="section-title">Components</div>
+  <div class="grid">
+    <a class="card" href="preview/components-buttons.html" target="_blank">
+      <div class="card-preview tall">
+        <iframe src="preview/components-buttons.html" loading="lazy"></iframe>
+      </div>
+      <div class="card-info">
+        <h3>Buttons</h3>
+        <p>Primary, secondary, tertiary, destructive — all sizes and states</p>
+        <span class="open-link">Open ›</span>
+      </div>
+    </a>
+    <a class="card" href="preview/components-badges.html" target="_blank">
+      <div class="card-preview tall">
+        <iframe src="preview/components-badges.html" loading="lazy"></iframe>
+      </div>
+      <div class="card-info">
+        <h3>Badges & Tags</h3>
+        <p>Status badges, pill variants, counter badges</p>
+        <span class="open-link">Open ›</span>
+      </div>
+    </a>
+    <a class="card" href="preview/components-inputs.html" target="_blank">
+      <div class="card-preview tall">
+        <iframe src="preview/components-inputs.html" loading="lazy"></iframe>
+      </div>
+      <div class="card-info">
+        <h3>Form Inputs</h3>
+        <p>Text inputs, select, search, error and disabled states</p>
+        <span class="open-link">Open ›</span>
+      </div>
+    </a>
+    <a class="card" href="preview/components-nav.html" target="_blank">
+      <div class="card-preview tall">
+        <iframe src="preview/components-nav.html" loading="lazy"></iframe>
+      </div>
+      <div class="card-info">
+        <h3>Sidebar Navigation</h3>
+        <p>Dark sidebar with mint active state — desktop nav pattern</p>
+        <span class="open-link">Open ›</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Brand -->
+  <div class="section-title">Brand</div>
+  <div class="grid">
+    <a class="card" href="preview/brand-logo.html" target="_blank">
+      <div class="card-preview">
+        <iframe src="preview/brand-logo.html" loading="lazy"></iframe>
+      </div>
+      <div class="card-info">
+        <h3>Logo Variants</h3>
+        <p>Full logo, wordmark, mark — on light, dark and mint backgrounds</p>
+        <span class="open-link">Open ›</span>
+      </div>
+    </a>
+  </div>
+
+</main>
+
+<footer>
+  BuyMaterials Design System · buymaterials.com
+</footer>
+
+</body>
+</html>
